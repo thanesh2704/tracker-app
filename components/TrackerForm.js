@@ -1,9 +1,6 @@
-// A simple React app for iPhone-based transformation tracking
-// Based on user-uploaded CSV structure
+// components/TrackerForm.js
 
 import { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 
 const fields = [
   "Workout Done? (Y/N)",
@@ -44,38 +41,41 @@ export default function TrackerForm() {
     <div className="p-4 max-w-md mx-auto space-y-4">
       <h1 className="text-xl font-bold text-center">My Daily Progress</h1>
       {fields.map((field) => (
-        <Card key={field} className="shadow-md">
-          <CardContent className="space-y-1 p-2">
-            <Label className="text-sm font-medium">{field}</Label>
-            {field.includes("Y/N") ? (
-              <Select onValueChange={(val) => handleChange(field, val)}>
-                <SelectTrigger>
-                  <div>{form[field] || "Select"}</div>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Yes">Yes</SelectItem>
-                  <SelectItem value="No">No</SelectItem>
-                </SelectContent>
-              </Select>
-            ) : field.includes("Mood") || field.includes("Group") ? (
-              <Textarea
-                placeholder="Enter details..."
-                value={form[field] || ""}
-                onChange={(e) => handleChange(field, e.target.value)}
-              />
-            ) : (
-              <Input
-                type="text"
-                value={form[field] || ""}
-                onChange={(e) => handleChange(field, e.target.value)}
-              />
-            )}
-          </CardContent>
-        </Card>
+        <div key={field} className="space-y-1">
+          <label className="text-sm font-medium block">{field}</label>
+          {field.includes("Y/N") ? (
+            <select
+              value={form[field] || ""}
+              onChange={(e) => handleChange(field, e.target.value)}
+              className="w-full border p-2 rounded"
+            >
+              <option value="">Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          ) : field.includes("Mood") || field.includes("Group") ? (
+            <textarea
+              placeholder="Enter details..."
+              value={form[field] || ""}
+              onChange={(e) => handleChange(field, e.target.value)}
+              className="w-full border p-2 rounded"
+            />
+          ) : (
+            <input
+              type="text"
+              value={form[field] || ""}
+              onChange={(e) => handleChange(field, e.target.value)}
+              className="w-full border p-2 rounded"
+            />
+          )}
+        </div>
       ))}
-      <Button className="w-full mt-4" onClick={handleSubmit}>
+      <button
+        onClick={handleSubmit}
+        className="w-full mt-4 p-2 bg-black text-white rounded"
+      >
         Save Today’s Entry
-      </Button>
+      </button>
     </div>
   );
 }
